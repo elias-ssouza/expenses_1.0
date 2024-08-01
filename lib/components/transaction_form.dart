@@ -1,5 +1,7 @@
+import 'package:expenses/components/adaptative_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'adaptative_button.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
@@ -30,7 +32,7 @@ class _TransactionFormState extends State<TransactionForm> {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
+      firstDate: DateTime(2019),
       lastDate: DateTime.now(),
     ).then((pickedDate) {
       if (pickedDate == null) {
@@ -51,27 +53,23 @@ class _TransactionFormState extends State<TransactionForm> {
         child: Padding(
           padding: EdgeInsets.only(
             top: 10,
-            bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
-            left: 10,
             right: 10,
+            left: 10,
+            bottom: 10 + MediaQuery.of(context).viewInsets.bottom,
           ),
           child: Column(
             children: [
-              TextField(
+              AdaptativeTextField(
+                label: 'Título',
                 controller: _titleController,
-                onSubmitted: (_) => _submitForm(),
-                decoration: const InputDecoration(
-                  labelText: 'Título',
-                ),
+                onSubmitted: (_) => _submitForm,
               ),
-              TextField(
+              AdaptativeTextField(
+                label: 'Valor (R\$)',
                 controller: _valueController,
                 keyboardType:
                     const TextInputType.numberWithOptions(decimal: true),
-                onSubmitted: (_) => _submitForm(),
-                decoration: const InputDecoration(
-                  labelText: 'Valor (R\$)',
-                ),
+                onSubmitted: (_) => _submitForm,
               ),
               SizedBox(
                 height: 70,
@@ -96,16 +94,12 @@ class _TransactionFormState extends State<TransactionForm> {
                   ],
                 ),
               ),
-                      Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
-                  ElevatedButton(
-                    onPressed: _submitForm,
-                    child: Text(
-                      'Nova Transação',
-                      style: TextStyle(color: Colors.white),
-                              ), 
-                              style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
+                  AdaptativeButton(
+                  'Nova Transação',
+                  _submitForm,
                   ),
                 ],
               ),
